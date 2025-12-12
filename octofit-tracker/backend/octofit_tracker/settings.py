@@ -26,9 +26,7 @@ SECRET_KEY = 'django-insecure-jwm4*xx=(ugs2d-$(x#l(1=e=%ff3q_*-b)1zht+eftp8+zw3u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-if os.environ.get('CODESPACE_NAME'):
-    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'django.contrib.sites',
+    # 'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -93,7 +91,7 @@ WSGI_APPLICATION = 'octofit_tracker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'octofit_tracker',
+        'NAME': 'octofit_db',
         'CLIENT': {
             'host': 'localhost',
             'port': 27017,
@@ -144,16 +142,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Settings
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-]
-if os.environ.get('CODESPACE_NAME'):
-    CORS_ALLOWED_ORIGINS.append(f"https://{os.environ.get('CODESPACE_NAME')}-3000.app.github.dev")
 
+# Allow all CORS origins, methods, and headers
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_METHODS = ['DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
 
-# Django Sites Framework
-SITE_ID = 1
+# Removed Django Sites Framework due to djongo migration issues
 
 # REST Framework Settings
 REST_FRAMEWORK = {
